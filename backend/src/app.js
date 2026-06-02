@@ -20,7 +20,10 @@ app.use(helmet());
 
 // 2. CORS setup
 const corsOptions = {
-  origin: process.env.CLIENT_URL || 'http://localhost:5173', // Vite default port
+  origin: (origin, callback) => {
+    // Dynamically allow any origin (e.g. localhost, dynamic Vercel previews) to prevent CORS blocks during testing
+    callback(null, true);
+  },
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true
